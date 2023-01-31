@@ -27,14 +27,14 @@ module.exports = {
   },
 
 
-  updateCourse(req, res) {
+  updateUser(req, res) {
     User.findOneAndUpdate(
       {_id: req.params.usereId},
       {$set: req.body},
       {runValidators: true, new: true},
     )
       .then((user) =>
-        !course
+        !User
           ? res.status(404)
             .json({message: 'No such thoughts exist....try again?'})
           : res.json(user),
@@ -42,8 +42,8 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  deleteCourse(req, res) {
-    User.findOneAndDelete({_id: req.params.courseId})
+  User(req, res) {
+    User.findOneAndDelete({_id: req.params.UserId})
       .then((user) =>
         !user
           ? res.status(404)

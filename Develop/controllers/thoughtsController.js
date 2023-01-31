@@ -8,7 +8,7 @@ module.exports = {
       .then((thoughts) => json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
-  getoneThought(req, res) {
+  getOneThought(req, res) {
     Thoughts.findOne({_id: req.params.thoughtsId})
       .then((thought) =>
         !thought ?
@@ -64,6 +64,34 @@ module.exports = {
             .json({message: 'thought missing? where is it!'}) :
           res.json({message: 'thought has been deleted!'}),
       )
+      .catch((err) => res.status(500).json(err));
+  },
+
+  thoughtResponse(req, res) {
+    Thoughts.findOneAndUpdate(
+      {_id: req.params.thoughtsId},
+      {$addToSet: {responses: req.body}},
+      {runValidators: true, new: true},
+    )
+      .then((thought) =>
+        !thought ?
+          res.status(404).json({message: 'no such id exist....try again'}) :
+          res.json(thought),
+      )
+      .catch((err) => res.status(500).res.json(err));
+  },
+
+  removeResponse(req, res) {
+    Thoughts.findOneAndUpdate(
+      {_id: req.params.thoughtsId},
+      {$pull: {reactions: {responseId: req.params.responseId}}},
+
+    ).then((thought) =>
+      !thought ?
+        res.status(404)
+          .json({message: 'no such thought id exist....try again>'}) :
+        res.json(thought),
+    )
       .catch((err) => res.status(500).json(err));
   },
 };
