@@ -1,22 +1,18 @@
 /* eslint-disable linebreak-style */
-const {Schema, Types, model} = require('mongoose');
+const {Schema, model} = require('mongoose');
 
 
 const ThoughtsSchema = new Schema({
-  id: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId(),
-  },
+
   thoughtsText: {
     type: String,
     required: true,
     maxlength: 50,
     minlength: 4,
   },
-  byUser: {
+  username: {
     type: String,
     required: true,
-    maxlength: 20,
   },
   DateCreated: {
     type: Date,
@@ -25,9 +21,10 @@ const ThoughtsSchema = new Schema({
 },
 {
   toJSON: {
+    virtuals: true,
     getters: true,
   },
-  id: true,
+  id: false,
 },
 );
 

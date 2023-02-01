@@ -4,7 +4,7 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable linebreak-style */
 
-const {User} = require("../models/user");
+const {User} = require("../models/User");
 module.exports = {
   findUsers(req, res) {
     User.find()
@@ -17,12 +17,12 @@ module.exports = {
       .then((user) =>
         !user
           // eslint-disable-next-line operator-linebreak
-          ? res.status(404).json({message: 'no such user exist!S'})
+          ? res.status(404).json({message: 'no such user exist!'})
           : res.json(user),
       )
       .catch((err) => res.status(500).json(err));
   },
-  newUser(req, res) {
+  createUser(req, res) {
     User.create(req.body)
       .then((userData) => res.json(userData))
       .catch((err) => res.status(500).json(err));
@@ -38,7 +38,6 @@ module.exports = {
       .then((user) =>
         !User
           ? res.status(404)
-            .json({message: 'No such thoughts exist....try again?'})
           : res.json(user),
       )
       .catch((err) => res.status(500).json(err));
@@ -52,8 +51,7 @@ module.exports = {
             .json({message: 'No such thoughts exist....try again?'})
           : User.deleteMany({_id: {$in: user.thoughts}}),
       )
-      .then(() => res
-        .json({message: 'no user user and thoughtss exist... try again?'}))
+      .then(() => res.json({message: "User and Thought deleted!"}))
       .catch((err) => res.status(500).json(err));
   },
 

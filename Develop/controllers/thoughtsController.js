@@ -1,18 +1,19 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable quotes */
 /* eslint-disable linebreak-style */
-const Thoughts = require('../models/thoughts');
-const User = require('../models/user');
+const Thoughts = require('../models/Thoughts');
+const User = require('../models/User');
 // eslint-disable-next-line linebreak-style
 
 module.exports = {
   getThoughts(req, res) {
     Thoughts.find()
-      .then((thoughts) => json(thoughts))
+      .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
   getOneThought(req, res) {
-    Thoughts.findOne({_id: req.params.thoughtsId})
+    Thoughts.findOne({_id: req.params.thoughtsId});
+    select("-__v")
       .then((thought) =>
         !thought ?
           res.status(404).json({message: 'no such thought id exist'}) :
@@ -23,10 +24,10 @@ module.exports = {
 
   createThought(req, res) {
     Thoughts.create(req.body);
-    then((thought) =>{
+    then(({_id}) =>{
       return User.findOneAndUpdate(
         {_id: req.body.userId},
-        {$addToSet: {thoughts: Thoughts._id}},
+        {$addToSet: {thoughts: _id}},
         {new: true},
       );
     }).catch((err) => {
@@ -39,10 +40,11 @@ module.exports = {
       {_id: req.params.thoughtsId},
       {$set: req.body},
       {runValidators: true, new: true},
-    ) .then((video) =>
+    ) .then((thought) =>
       !thought ?
-        res.status(404).json({message: 'No video with this id!'}) :
-        res.json(video),
+        res.status(404)
+          .json({message: 'no such thought id exist!.....try again?'}) :
+        res.json(thought),
     ).catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -70,31 +72,4 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  thoughtResponse(req, res) {
-    Thoughts.findOneAndUpdate(
-      {_id: req.params.thoughtsId},
-      {$addToSet: {responses: req.body}},
-      {runValidators: true, new: true},
-    )
-      .then((thought) =>
-        !thought ?
-          res.status(404).json({message: 'no such id exist....try again'}) :
-          res.json(thought),
-      )
-      .catch((err) => res.status(500).res.json(err));
-  },
-
-  removeResponse(req, res) {
-    Thoughts.findOneAndUpdate(
-      {_id: req.params.thoughtsId},
-      {$pull: {reactions: {responseId: req.params.responseId}}},
-
-    ).then((thought) =>
-      !thought ?
-        res.status(404)
-          .json({message: 'no such thought id exist....try again>'}) :
-        res.json(thought),
-    )
-      .catch((err) => res.status(500).json(err));
-  },
 };

@@ -2,15 +2,21 @@
 /* eslint-disable new-cap */
 /* eslint-disable linebreak-style */
 const router = require('express').Router();
+
 const {
   findUsers,
   getOneUser,
-  newUser,
+  createUser,
+  updateUser,
+  deleteUser,
 } = require('../../controllers/userControllers');
 
-router.route('/:userId').get(findUsers).post(newUser);
+router.route('/').get(findUsers).post(createUser);
 
 
-router.route('/:userId').get(getOneUser);
+router.route('/:userId')
+  .get(getOneUser)
+  .put(updateUser)
+  .delete(deleteUser);
 
 module.exports = router;
