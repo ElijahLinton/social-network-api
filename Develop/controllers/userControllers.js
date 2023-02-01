@@ -1,8 +1,10 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable quotes */
+/* eslint-disable linebreak-style */
 /* eslint-disable operator-linebreak */
 /* eslint-disable linebreak-style */
 
-const {User} = require('../models');
+const {User} = require("../models/user");
 module.exports = {
   findUsers(req, res) {
     User.find()
@@ -42,7 +44,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  User(req, res) {
+  deleteUser(req, res) {
     User.findOneAndDelete({_id: req.params.UserId})
       .then((user) =>
         !user

@@ -1,5 +1,8 @@
 /* eslint-disable linebreak-style */
-const {Thoughts, User} = require('../models');
+/* eslint-disable quotes */
+/* eslint-disable linebreak-style */
+const Thoughts = require('../models/thoughts');
+const User = require('../models/user');
 // eslint-disable-next-line linebreak-style
 
 module.exports = {

@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
-const {Schema, Types} = require('mongoose');
-const UserSchema = require('./user');
+const {Schema, Types, model} = require('mongoose');
+
 
 const ThoughtsSchema = new Schema({
   id: {
@@ -13,7 +13,11 @@ const ThoughtsSchema = new Schema({
     maxlength: 50,
     minlength: 4,
   },
-  byUser: [UserSchema],
+  byUser: {
+    type: String,
+    required: true,
+    maxlength: 20,
+  },
   DateCreated: {
     type: Date,
     default: Date.now,

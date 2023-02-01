@@ -1,13 +1,9 @@
 /* eslint-disable linebreak-style */
-const {Schema, Types} = require('mongoose');
+const {Schema, Types, model} = require('mongoose');
 
-UserSchema = new Schema(
+userSchema = new Schema(
   {
-    userId: {
-      // eslint-disable-next-line new-cap
-      type: Schema.Types.ObjectId(),
-      default: () => new Types.ObjectId(),
-    },
+
     username: {
       type: String,
       required: true,
@@ -19,13 +15,19 @@ UserSchema = new Schema(
       required: true,
       default: Date.now,
     },
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Thought',
+      },
+    ],
   },
   {
     toJSON: {
       getters: true,
     },
-    id: true,
+    id: false,
   },
 );
-const User = model('user', userSchema);
+const User = model('User', userSchema);
 module.exports = User;

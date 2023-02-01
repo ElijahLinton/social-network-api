@@ -21,8 +21,10 @@ router
   .put(updatethought)
   .delete(deleteThought);
 
-router.route('/:videoId/responses').post(thoughtResponse);
+router.route('/:thoughtId/reactions')
+  .post(thoughtResponse);
 
-router.route('/:videoId/responses/:responseId').post(removeResponse);
+router.route('/:thoughtId/reactions/:reactionId')
+  .delete(removeResponse);
 
 module.exports = router;

@@ -10,6 +10,7 @@ const {
 
 router.route('/:userId').get(findUsers).post(newUser);
 
+
 router.route('/:userId').get(getOneUser);
 
 module.exports = router;
