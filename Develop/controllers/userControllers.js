@@ -3,16 +3,18 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable operator-linebreak */
 /* eslint-disable linebreak-style */
+const User = require('../models/User');
 
-const {User} = require("../models/User");
 module.exports = {
   findUsers(req, res) {
     User.find()
-      .then((userData) => res.json(userData))
-      .catch((err) => res.status(500));
+      .then((user) => res.json(user))
+      .catch((err) => res.status(500).json(err));
   },
   getOneUser(req, res) {
     User.findOne({_id: req.params.userId})
+      .populate("thoughts")
+      .populate("friends")
       .select('-__V')
       .then((user) =>
         !user
@@ -24,7 +26,7 @@ module.exports = {
   },
   createUser(req, res) {
     User.create(req.body)
-      .then((userData) => res.json(userData))
+      .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
 
@@ -38,6 +40,7 @@ module.exports = {
       .then((user) =>
         !User
           ? res.status(404)
+            .json({message: 'No such thoughts exist....try again?'})
           : res.json(user),
       )
       .catch((err) => res.status(500).json(err));
